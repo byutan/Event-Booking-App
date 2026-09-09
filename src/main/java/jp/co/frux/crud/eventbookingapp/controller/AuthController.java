@@ -1,6 +1,8 @@
 package jp.co.frux.crud.eventbookingapp.controller;
 
 import jakarta.validation.Valid;
+import jp.co.frux.crud.eventbookingapp.dto.LoginRequest;
+import jp.co.frux.crud.eventbookingapp.dto.LoginResponse;
 import jp.co.frux.crud.eventbookingapp.dto.RegisterRequest;
 import jp.co.frux.crud.eventbookingapp.dto.RegisterResponse;
 import jp.co.frux.crud.eventbookingapp.service.AuthService;
@@ -22,5 +24,11 @@ public class AuthController {
     public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest req) {
         RegisterResponse res = authService.register(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest req) {
+        LoginResponse res = authService.login(req);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 }

@@ -1,6 +1,7 @@
 package jp.co.frux.crud.eventbookingapp.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jp.co.frux.crud.eventbookingapp.security.AuthError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -48,4 +49,17 @@ public class GlobalExceptionHandler {
                 null
         ));
     }
+
+    @ExceptionHandler(BusinessValidationException.class)
+    public ResponseEntity<AuthError> handleBusinessValidationException(
+            BusinessValidationException e, HttpServletRequest req) {
+        boolean isSuccess = false;
+        HttpStatus status = e.getStatus();
+        String message = e.getMessage();
+
+        return ResponseEntity.status(status).body(new AuthError(
+                isSuccess,
+                message));
+    }
+
 }
