@@ -24,7 +24,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
             @NonNull HttpServletResponse response,
             @NonNull AccessDeniedException accessDeniedException) throws IOException {
         AuthError body = new AuthError(
-            false,
+                false,
                 "Forbidden – You do not have permission to perform this action"
         );
         response.setStatus(HttpStatus.FORBIDDEN.value());

@@ -23,10 +23,21 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull AuthenticationException authException) throws IOException {
-        AuthError body = new AuthError(
-                false,
-                "Unauthorized – Please login"
-        );
+        String errorMessage = (String) request.getAttribute("auth_error");
+        if (errorMessage == null) {
+            String requestUri = request.getRequestURI();
+
+            if (requestUri.startsWith("/api/tickets")) {
+                errorMessage = "Unauthorized – Please login to access this source";
+            }  else if (requestUri.startsWith("/api/events")) {
+            errorMessage = "Unauthorized - Please login";
+            } else {
+            errorMessage = "Missing access token";
+            }
+        }
+
+        AuthError body = new AuthError(false, errorMessage);
+
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         objectMapper.writeValue(response.getOutputStream(), body);

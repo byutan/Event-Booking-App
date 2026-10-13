@@ -4,11 +4,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jp.co.frux.crud.eventbookingapp.security.AuthError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import tools.jackson.databind.exc.InvalidFormatException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -62,4 +67,26 @@ public class GlobalExceptionHandler {
                 message));
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ValidationError> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException e, HttpServletRequest req) {
+
+        HttpStatus status = HttpStatus.UNPROCESSABLE_CONTENT;
+
+        List<ValidationError.ErrorDetail> errors = List.of(
+                new ValidationError.ErrorDetail(
+                        "eventReminder",
+                        "Must be true or false"
+                )
+        );
+
+        boolean isSuccess = false;
+        String message = "Validation failed";
+
+        return ResponseEntity.status(status).body(new ValidationError(
+                isSuccess,
+                message,
+                errors
+        ));
+    }
 }
