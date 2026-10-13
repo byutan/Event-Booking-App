@@ -6,7 +6,6 @@ import jp.co.frux.crud.eventbookingapp.dto.RegisterRequest;
 import jp.co.frux.crud.eventbookingapp.dto.RegisterResponse;
 import jp.co.frux.crud.eventbookingapp.entity.User;
 import jp.co.frux.crud.eventbookingapp.exception.BusinessConflictException;
-import jp.co.frux.crud.eventbookingapp.exception.BusinessException;
 import jp.co.frux.crud.eventbookingapp.exception.BusinessValidationException;
 import jp.co.frux.crud.eventbookingapp.repository.UserRepository;
 import jp.co.frux.crud.eventbookingapp.security.JwtService;

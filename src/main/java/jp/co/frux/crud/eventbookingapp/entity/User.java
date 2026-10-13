@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,25 +17,31 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    int id;
+    private int id;
 
     @Column(name = "full_name", nullable = false)
-    String fullName;
+    private String fullName;
 
     @Column(name = "email", unique = true, nullable = false)
-    String email;
+    private String email;
 
     @Column(name = "password", nullable = false)
-    String password;
+    private String password;
 
     @Column(name = "avatar")
-    String avatar;
+    private String avatar;
 
     @Column(name = "role")
-    String role = "USER";
+    private String role = "USER";
 
     @Column(name = "created_at")
-    LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings;
+
+    @OneToOne(mappedBy = "user")
+    private Reminder reminder;
 
     public User(String fullName, String email, String password, String avatar, String role, LocalDateTime createdAt) {
         this.fullName = fullName;

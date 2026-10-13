@@ -50,7 +50,6 @@ public class AuthServiceImplTest {
 
         when(passwordEncoder.encode("password123")).thenReturn("password123");
         when(userRepository.save(any(User.class))).thenReturn(new User(
-                1,
                 "Jane Doe",
                 "jane@example.com",
                 "password123",
@@ -114,7 +113,7 @@ public class AuthServiceImplTest {
         assertNotNull(res.getData());
         assertEquals(
                 "token",
-                res.getData().token()
+                res.getData().accessToken()
         );
         assertEquals(
                 exp,

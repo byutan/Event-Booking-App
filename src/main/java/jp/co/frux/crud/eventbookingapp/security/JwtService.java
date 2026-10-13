@@ -37,7 +37,7 @@ public class JwtService {
 
         return Jwts.builder()
                 .issuer(issuer)
-                .subject(user.getFullName())
+                .subject(user.getEmail())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiration))
                 .claims(claims)
@@ -46,12 +46,8 @@ public class JwtService {
     }
 
     public boolean validateToken(String token) {
-        try {
-            parseClaims(token);
-            return true;
-        }   catch (JwtException e) {
-            return false;
-        }
+        parseClaims(token);
+        return true;
     }
 
     public Claims parseClaims(String token) {

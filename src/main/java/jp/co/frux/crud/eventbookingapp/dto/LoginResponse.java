@@ -15,7 +15,7 @@ public class LoginResponse {
     private UserToken data;
 
     public record UserToken(
-            String token,
+            String accessToken,
             Instant expire
     ) {}
 }

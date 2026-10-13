@@ -1,4 +1,21 @@
 package jp.co.frux.crud.eventbookingapp.dto;
 
-public class PaymentResponse {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+@AllArgsConstructor
+public class PaymentResponse<T> {
+    private boolean success;
+    private String message;
+    private T data;
+
+    public record PaymentData (
+            int paymentId,
+            int bookingId,
+            Double amount,
+            String status
+    ) {}
 }
