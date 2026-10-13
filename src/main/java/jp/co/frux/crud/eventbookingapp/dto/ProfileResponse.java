@@ -1,0 +1,21 @@
+package jp.co.frux.crud.eventbookingapp.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+@AllArgsConstructor
+public class ProfileResponse<T> {
+    private boolean success;
+    private String message;
+    private T data;
+
+    public record UserData (
+            int id,
+            String fullName,
+            String email,
+            String avatar
+    ) {}
+}
