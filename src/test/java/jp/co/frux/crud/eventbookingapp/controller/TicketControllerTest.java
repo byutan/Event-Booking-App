@@ -30,7 +30,7 @@ public class TicketControllerTest {
 
     @WithMockUser(username = "jane@example.com", roles = "ADMIN")
     @Test
-    void createPayment_shouldReturn200() throws Exception {
+    void getAllTickets_shouldReturn200() throws Exception {
         TicketResponse.EventData eventData = new TicketResponse.EventData(
                 1,
                 "Art Exhibition",
@@ -69,7 +69,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    void createPayment_withoutLogin_shouldReturn401() throws Exception {
+    void getAllTickets_withoutLogin_shouldReturn401() throws Exception {
         mockMvc.perform(get("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
@@ -77,7 +77,7 @@ public class TicketControllerTest {
 
     @WithMockUser(username = "jane@example.com", roles = "MANAGER")
     @Test
-    void createPayment_withoutPermission_shouldReturn403() throws Exception {
+    void getAllTickets_withoutPermission_shouldReturn403() throws Exception {
         mockMvc.perform(get("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());

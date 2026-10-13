@@ -77,7 +77,7 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isUnprocessableContent())
-                .andExpect(jsonPath("$.errors.length()").value(3));
+                .andExpect(jsonPath("$.errors.length()").value(4));
 
         verify(authService, never()).register(any(RegisterRequest.class));
     }
@@ -165,7 +165,7 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Login successful"))
-                .andExpect(jsonPath("$.data.token").value("token"))
+                .andExpect(jsonPath("$.data.accessToken").value("token"))
                 .andExpect(jsonPath("$.data.expire").value(exp.toString()));
 
         verify(authService).login(any(LoginRequest.class));

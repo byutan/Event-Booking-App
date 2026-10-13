@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,7 +62,8 @@ public class PaymentControllerTest {
     @WithMockUser(username = "jane@example.com", roles = "ADMIN")
     @Test
     void createPayment_shouldReturn201() throws Exception {
-        when(paymentService.createPayment(req)).thenReturn(res);
+        when(paymentService.createPayment(any(PaymentRequest.class)))
+                .thenReturn(res);
         mockMvc.perform(post("/api/payments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))

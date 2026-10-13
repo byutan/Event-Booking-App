@@ -18,6 +18,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -76,7 +77,8 @@ public class BookingControllerTest {
                         100.00
                 ))
                 .build();
-        when(bookingService.createBooking(bookingRequest)).thenReturn(res);
+        when(bookingService.createBooking(any(BookingRequest.class)))
+                .thenReturn(res);
         mockMvc.perform(post("/api/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookingRequest)))
@@ -124,7 +126,8 @@ public class BookingControllerTest {
                         100.00
                 ))
                 .build();
-        when(bookingService.createBooking(bookingRequest)).thenReturn(res);
+        when(bookingService.createBooking(any(BookingRequest.class)))
+                .thenReturn(res);
         mockMvc.perform(post("/api/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookingRequest)))

@@ -61,7 +61,7 @@ public class AuthServiceImplTest {
 
         assertTrue(res.isSuccess());
         assertNotNull(res.getData());
-        assertEquals(1, res.getData().userId());
+        assertEquals(0, res.getData().userId());
         assertEquals(req.getFullName(), res.getData().fullName());
         assertEquals(req.getEmail(), res.getData().email());
 

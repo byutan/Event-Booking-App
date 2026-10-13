@@ -1,5 +1,6 @@
 package jp.co.frux.crud.eventbookingapp.controller;
 
+import jp.co.frux.crud.eventbookingapp.dto.EventFilterRequest;
 import jp.co.frux.crud.eventbookingapp.dto.EventRequest;
 import jp.co.frux.crud.eventbookingapp.dto.EventResponse;
 import jp.co.frux.crud.eventbookingapp.service.EventService;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -310,8 +312,32 @@ public class EventControllerTest {
     @WithMockUser(username = "jane@example.com", roles = "ADMIN")
     @Test
     void getEvent_shouldReturn200() throws Exception {
+        EventResponse<List<EventResponse.EventData>> res =
+                EventResponse.<List<EventResponse.EventData>>builder()
+                        .success(true)
+                        .message("Events retrieved successfully")
+                        .data(List.of(
+                                new EventResponse.EventData(
+                                        3,
+                                        "Art Exhibition",
+                                        LocalDateTime.parse("2027-05-12T10:00:00"),
+                                        "Modern Art Gallery, New York",
+                                        25.00,
+                                        "Lorem ipsum dolor sit amet...",
+                                        "https://cdn.example.com/events/art_exhibition.jpg"
+                                )
+                        ))
+                        .build();
+
+        when(eventService.getEvents(any(EventFilterRequest.class)))
+                .thenReturn(res);
+
         mockMvc.perform(get("/api/events")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Events retrieved successfully"))
+                .andExpect(jsonPath("$.data[0].id").value(3))
+                .andExpect(jsonPath("$.data[0].title").value("Art Exhibition"));
     }
 }
